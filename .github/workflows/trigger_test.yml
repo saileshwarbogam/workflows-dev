@@ -21,4 +21,5 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: saileshwarbogam/workflows-test
           event-type: my-event
-          client-payload: '{"github": ${{ steps.get_tag.outputs.tag_name }}}'
+          client-payload: '{"github": "${{ steps.get_tag.outputs.tag_name }}" }'
+
