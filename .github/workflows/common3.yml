@@ -1,0 +1,66 @@
+# name: trigger tests
+
+# on:
+#   push:
+#     branches:
+#       - master
+#     paths:
+#       - "src/**"
+
+# jobs:
+#   trigger-test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+#         with:
+#           fetch-depth: 0  # Fetch all history, including tags
+
+#       - name: Get Latest Tag Name
+#         id: get_tag
+#         run: echo "::set-output name=tag_name::$(git describe --tags --abbrev=0)"
+
+#       - name: trigger tests in another repo
+#         uses: peter-evans/repository-dispatch@v2
+#         with:
+#           token: ${{ secrets.REPO_ACCESS_TOKEN }}
+#           repository: saileshwarbogam/workflows-test
+#           event-type: my-event
+#           client-payload: '{"github": "${{ steps.get_tag.outputs.tag_name }}" }'
+
+
+name: java SDK
+
+on:
+  push:
+    branches:
+      - master
+  
+  workflow_dispatch:
+    inputs:
+      sdkVersion:
+        description: 'SDK version'
+        required: false
+        type: string
+      sdkVersionType:
+        description: 'SDK version type'
+        required: false
+        type: choice
+        options:
+          - internal
+          - public
+
+jobs:
+  build:
+    name: run-workflow
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [development, staging, production]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: print trigger details
+        run: |
+          echo ${{ matrix.environment }}
