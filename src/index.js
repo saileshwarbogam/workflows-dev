@@ -1,5 +1,5 @@
 const promptHello = () => {
-    console.log("Hello 44444")
+    console.log("Hello 444")
 }
 
 promptHello()
